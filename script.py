@@ -1,8 +1,16 @@
+
+import requests
 from requests import get, post
 import json
-
+from requests import get, post
 from dateutil import parser
 import datetime
+import re
+#import BeautifulSoup
+import lxml
+import bs4
+from bs4 import BeautifulSoup
+
 
 # Module variables to connect to moodle api:
 ## Insert token and URL for your site here. 
@@ -49,7 +57,17 @@ def call(fname, **kwargs):
     if type(response) == dict and response.get('exception'):
         raise SystemError("Error calling Moodle API\n", response)
     return response
-
+    
+def find_resource_links():
+    '''Finds relevent resource links to views for resources on 
+	given moodle course source code coming in through url.'''
+    res = requests.get("http://f0ae7213ef73.eu.ngrok.io")
+    soup=BeautifulSoup(res.text, "lxml")
+    resource_links=[]
+    for li in soup.findAll('li', class_=re.compile('no-overflow')):
+        for a in li.findAll('a'):
+            resource_links.append(a.get('href'))
+    return resource_links
 ################################################
 # Rest-Api classes
 ################################################
@@ -63,21 +81,25 @@ class LocalUpdateSections(object):
     """Updates sectionnames. Requires: courseid and an array with sectionnumbers and sectionnames"""
     def __init__(self, cid, sectionsdata):
         self.updatesections = call('local_wsmanagesections_update_sections', courseid = cid, sections = sectionsdata)
+
+        
 ################################################
 # Example
 ################################################
 
 courseid = "10" # Exchange with valid id.
 # # Get all sections of the course.
-# sec = LocalGetSections(courseid)
+#sec = LocalGetSections(courseid)
 # # Get sections ids of the course with the given numbers.
-# #sec = LocalGetSections(courseid, [0, 1, 2, 3, 5, 6])
+#sec = LocalGetSections(courseid, [0,1,2,3,4,5,6])
 # # Get sections ids of the course with the given ids.
 # #sec = LocalGetSections(courseid, [], [7186, 7187, 7188, 7189])
 # # Get sections ids of the course with the given numbers and given ids.
 # #sec = LocalGetSections(courseid, [0, 1, 2, 3, 5, 6], [7186, 7187, 7188, 7189])
-# #print(sec.getsections)
-# print(json.dumps(sec.getsections[16]['summary'], indent=4, sort_keys=True))
+# print(sec.getsections)
+#print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
+
+
 
 # summary ='<a href="https://mikhail-cct.github.io/ooapp2/wk2/">wk2: Decorators</a>'
 # data = [{'type': 'num', 'section': 16, 'name': 'Four§', 'summary': '', 'summaryformat': 1, 'visible': 1 , 'highlight': 0, 'sectionformatoptions': [{'name': 'level', 'value': '1'}]}]
@@ -91,12 +113,13 @@ courseid = "10" # Exchange with valid id.
 
 # Get all sections of the course.
 sec = LocalGetSections(courseid)
+print("sec")
 
 # Output readable JSON, but print only summary
 print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
 
 # Split the section name by dash and convert the date into the timestamp, it takes the current year, so think of a way for making sure it has the correct year!
-month = parser.parse(list(sec.getsections)[1]['name'].split('-')[0])
+month = parser.parse(list(sec.getsections)[1]['name'].split('-')[-1])
 # Show the resulting timestamp
 print(month)
 # Extract the week number from the start of the calendar year
@@ -118,4 +141,5 @@ data[0]['section'] = 1
 sec_write = LocalUpdateSections(courseid, data)
 
 sec = LocalGetSections(courseid)
-print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
+print(json.dumps(sec.getsections[2]['summary'], indent=4, sort_keys=True))
+
