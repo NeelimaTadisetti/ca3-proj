@@ -1,6 +1,9 @@
 from requests import get, post
 import json
 
+from dateutil import parser
+import datetime
+
 # Module variables to connect to moodle api:
 ## Insert token and URL for your site here. 
 ## Mind that the endpoint can start with "/moodle" depending on your installation.
@@ -65,22 +68,54 @@ class LocalUpdateSections(object):
 ################################################
 
 courseid = "10" # Exchange with valid id.
+# # Get all sections of the course.
+# sec = LocalGetSections(courseid)
+# # Get sections ids of the course with the given numbers.
+# #sec = LocalGetSections(courseid, [0, 1, 2, 3, 5, 6])
+# # Get sections ids of the course with the given ids.
+# #sec = LocalGetSections(courseid, [], [7186, 7187, 7188, 7189])
+# # Get sections ids of the course with the given numbers and given ids.
+# #sec = LocalGetSections(courseid, [0, 1, 2, 3, 5, 6], [7186, 7187, 7188, 7189])
+# #print(sec.getsections)
+# print(json.dumps(sec.getsections[16]['summary'], indent=4, sort_keys=True))
+
+# summary ='<a href="https://mikhail-cct.github.io/ooapp2/wk2/">wk2: Decorators</a>'
+# data = [{'type': 'num', 'section': 16, 'name': 'Four§', 'summary': '', 'summaryformat': 1, 'visible': 1 , 'highlight': 0, 'sectionformatoptions': [{'name': 'level', 'value': '1'}]}]
+
+# data[0]['summary']= summary
+# sec_write = LocalUpdateSections(courseid, data)
+# #print(sec.updatesections)
+# sec = LocalGetSections(courseid)
+# print(json.dumps(sec.getsections[16]['summary'], indent=4, sort_keys=True))
+
+
 # Get all sections of the course.
 sec = LocalGetSections(courseid)
-# Get sections ids of the course with the given numbers.
-#sec = LocalGetSections(courseid, [0, 1, 2, 3, 5, 6])
-# Get sections ids of the course with the given ids.
-#sec = LocalGetSections(courseid, [], [7186, 7187, 7188, 7189])
-# Get sections ids of the course with the given numbers and given ids.
-#sec = LocalGetSections(courseid, [0, 1, 2, 3, 5, 6], [7186, 7187, 7188, 7189])
-#print(sec.getsections)
-print(json.dumps(sec.getsections[16]['summary'], indent=4, sort_keys=True))
 
-summary ='<a href="https://mikhail-cct.github.io/ooapp2/wk2/">wk2: Decorators</a>'
-data = [{'type': 'num', 'section': 16, 'name': 'Four§', 'summary': '', 'summaryformat': 1, 'visible': 1 , 'highlight': 0, 'sectionformatoptions': [{'name': 'level', 'value': '1'}]}]
+# Output readable JSON, but print only summary
+print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
 
-data[0]['summary']= summary
+# Split the section name by dash and convert the date into the timestamp, it takes the current year, so think of a way for making sure it has the correct year!
+month = parser.parse(list(sec.getsections)[1]['name'].split('-')[0])
+# Show the resulting timestamp
+print(month)
+# Extract the week number from the start of the calendar year
+print(month.strftime("%V"))
+
+#  Assemble the payload
+data = [{'type': 'num', 'section': 0, 'summary': '', 'summaryformat': 1, 'visible': 1 , 'highlight': 0, 'sectionformatoptions': [{'name': 'level', 'value': '1'}]}]
+
+# Assemble the correct summary
+summary = '<a href="https://mikhail-cct.github.io/ca3-test/wk1/">Week 1: Introduction</a><br>'
+
+# Assign the correct summary
+data[0]['summary'] = summary
+
+# Set the correct section number
+data[0]['section'] = 1
+
+# Write the data back to Moodle
 sec_write = LocalUpdateSections(courseid, data)
-#print(sec.updatesections)
+
 sec = LocalGetSections(courseid)
-print(json.dumps(sec.getsections[16]['summary'], indent=4, sort_keys=True))
+print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
