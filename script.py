@@ -6,11 +6,10 @@ from requests import get, post
 from dateutil import parser
 import datetime
 import re
-#import BeautifulSoup
 import lxml
 import bs4
 from bs4 import BeautifulSoup
-
+import os
 
 # Module variables to connect to moodle api:
 ## Insert token and URL for your site here. 
@@ -82,39 +81,32 @@ class LocalUpdateSections(object):
     def __init__(self, cid, sectionsdata):
         self.updatesections = call('local_wsmanagesections_update_sections', courseid = cid, sections = sectionsdata)
 
-        
+       
 ################################################
 # Example
 ################################################
 
+os.getcwd()
+os.listdir()
+for folder, sub_folders, files in os.walk("Sem1"):
+    print("currently looking at folder:"+ folder)
+    print('\n')
+    print("The subfolders are: ")
+    for sub_fold in sub_folders:
+        print("\t Subfolder: "+sub_fold)
+
+    print('\n')
+    print("THE FILES ARE : ")
+    for f in files:
+        print("\t Files: "+f)
+    print('\n')
+    
 courseid = "10" # Exchange with valid id.
-# # Get all sections of the course.
-#sec = LocalGetSections(courseid)
-# # Get sections ids of the course with the given numbers.
-#sec = LocalGetSections(courseid, [0,1,2,3,4,5,6])
-# # Get sections ids of the course with the given ids.
-# #sec = LocalGetSections(courseid, [], [7186, 7187, 7188, 7189])
-# # Get sections ids of the course with the given numbers and given ids.
-# #sec = LocalGetSections(courseid, [0, 1, 2, 3, 5, 6], [7186, 7187, 7188, 7189])
-# print(sec.getsections)
-#print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
-
-
-
-# summary ='<a href="https://mikhail-cct.github.io/ooapp2/wk2/">wk2: Decorators</a>'
-# data = [{'type': 'num', 'section': 16, 'name': 'Four§', 'summary': '', 'summaryformat': 1, 'visible': 1 , 'highlight': 0, 'sectionformatoptions': [{'name': 'level', 'value': '1'}]}]
-
-# data[0]['summary']= summary
-# sec_write = LocalUpdateSections(courseid, data)
-# #print(sec.updatesections)
-# sec = LocalGetSections(courseid)
-# print(json.dumps(sec.getsections[16]['summary'], indent=4, sort_keys=True))
-
-
 # Get all sections of the course.
 sec = LocalGetSections(courseid)
-#print(sec)
 
+# Get sections ids of the course with the given numbers.
+sec = LocalGetSections(courseid, [0,1,2,3,4,5,6])
 # Output readable JSON, but print only summary
 print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
 
@@ -130,7 +122,6 @@ data = [{'type': 'num', 'section': 0, 'summary': '', 'summaryformat': 1, 'visibl
 
 # Assemble the correct summary
 summary = '<a href="https://neelimatadisetti.github.io/ca3-proj/wk1/">Week1</a><br> <a href="https://neelimatadisetti.github.io/ca3-proj/wk1/wk1.pdf" <="" a="">PDF</a><br> <a href="https://drive.google.com/drive/folders/1pFHUrmpLv9gEJsvJYKxMdISuQuQsd_qX">Class Recording</a><br>'
-#summary = '<a href="https://mikhail-cct.github.io/ca3-test/wk1/">Week 1: Introduction</a><br>'
 
 # Assign the correct summary
 data[0]['summary'] = summary
@@ -142,5 +133,6 @@ data[0]['section'] = 1
 sec_write = LocalUpdateSections(courseid, data)
 
 sec = LocalGetSections(courseid)
+# Output readable JSON.
 print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
 
