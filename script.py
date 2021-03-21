@@ -84,7 +84,7 @@ class LocalUpdateSections(object):
         self.updatesections = call('local_wsmanagesections_update_sections', courseid = cid, sections = sectionsdata)
 
        
-# Scanning the existing folders
+# Scanning the existing
 os.getcwd()
 os.listdir()
 for folder, sub_folders, files in os.walk("Sem1"):
@@ -103,11 +103,6 @@ for folder, sub_folders, files in os.walk("Sem1"):
 courseid = "10" # Exchange with valid id.
 # Get all sections of the course.
 sec = LocalGetSections(courseid)
-<<<<<<< HEAD
-=======
-#print(sec)
->>>>>>> 1077b6afda71a07e9af4318d6aee7659303b6f8a
-
 # Get sections ids of the course with the given numbers.
 sec = LocalGetSections(courseid, [0,1,2,3,4,5,6])
 # Output readable JSON, but print only summary
