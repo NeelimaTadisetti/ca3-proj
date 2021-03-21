@@ -2,7 +2,7 @@
 import requests
 from requests import get, post
 import json
-from requests import get, post
+
 from dateutil import parser
 import datetime
 import re
@@ -56,6 +56,8 @@ def call(fname, **kwargs):
     if type(response) == dict and response.get('exception'):
         raise SystemError("Error calling Moodle API\n", response)
     return response
+
+    #Class for assembling the links 
     
 def find_resource_links():
     '''Finds relevent resource links to views for resources on 
@@ -84,7 +86,8 @@ class LocalUpdateSections(object):
         self.updatesections = call('local_wsmanagesections_update_sections', courseid = cid, sections = sectionsdata)
 
        
-# Scanning the existing
+# Scanning the file system.
+
 os.getcwd()
 os.listdir()
 for folder, sub_folders, files in os.walk("Sem1"):
