@@ -113,7 +113,7 @@ courseid = "10" # Exchange with valid id.
 
 # Get all sections of the course.
 sec = LocalGetSections(courseid)
-print("sec")
+#print(sec)
 
 # Output readable JSON, but print only summary
 print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
