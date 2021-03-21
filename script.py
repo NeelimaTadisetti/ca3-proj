@@ -113,7 +113,7 @@ courseid = "10" # Exchange with valid id.
 
 # Get all sections of the course.
 sec = LocalGetSections(courseid)
-print("sec")
+#print(sec)
 
 # Output readable JSON, but print only summary
 print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
@@ -129,7 +129,8 @@ print(month.strftime("%V"))
 data = [{'type': 'num', 'section': 0, 'summary': '', 'summaryformat': 1, 'visible': 1 , 'highlight': 0, 'sectionformatoptions': [{'name': 'level', 'value': '1'}]}]
 
 # Assemble the correct summary
-summary = '<a href="https://mikhail-cct.github.io/ca3-test/wk1/">Week 1: Introduction</a><br>'
+summary = '<a href="https://neelimatadisetti.github.io/ca3-proj/wk1/">Week1</a><br> <a href="https://neelimatadisetti.github.io/ca3-proj/wk1/wk1.pdf" <="" a="">PDF</a><br> <a href="https://drive.google.com/drive/folders/1pFHUrmpLv9gEJsvJYKxMdISuQuQsd_qX">Class Recording</a><br>'
+#summary = '<a href="https://mikhail-cct.github.io/ca3-test/wk1/">Week 1: Introduction</a><br>'
 
 # Assign the correct summary
 data[0]['summary'] = summary
@@ -141,5 +142,5 @@ data[0]['section'] = 1
 sec_write = LocalUpdateSections(courseid, data)
 
 sec = LocalGetSections(courseid)
-print(json.dumps(sec.getsections[2]['summary'], indent=4, sort_keys=True))
+print(json.dumps(sec.getsections[1]['summary'], indent=4, sort_keys=True))
 
