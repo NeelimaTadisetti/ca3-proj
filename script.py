@@ -122,7 +122,7 @@ print(month.strftime("%V"))
 data = [{'type': 'num', 'section': 0, 'summary': '', 'summaryformat': 1, 'visible': 1 , 'highlight': 0, 'sectionformatoptions': [{'name': 'level', 'value': '1'}]}]
 
 # Assemble the correct summary
-summary = '<a href="https://neelimatadisetti.github.io/ca3-proj/wk1/">Week1</a><br> <a href="https://neelimatadisetti.github.io/ca3-proj/wk1/wk1.pdf" <="" a="">PDF</a><br> <a href="https://drive.google.com/drive/folders/1pFHUrmpLv9gEJsvJYKxMdISuQuQsd_qX">Class Recording</a><br>'
+summary = '<a href="https://neelimatadisetti.github.io/ca3-proj/Sem1/wk1/">Week1</a><br> <a href="https://neelimatadisetti.github.io/ca3-proj/Sem1/wk1/wk1.pdf" <="" a="">PDF</a><br> <a href="https://drive.google.com/drive/folders/1pFHUrmpLv9gEJsvJYKxMdISuQuQsd_qX">Class Recording</a><br>'
 
 # Assign the correct summary
 data[0]['summary'] = summary
