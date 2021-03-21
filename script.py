@@ -60,6 +60,7 @@ def call(fname, **kwargs):
 def find_resource_links():
     '''Finds relevent resource links to views for resources on 
 	given moodle course source code coming in through url.'''
+
     res = requests.get("http://f0ae7213ef73.eu.ngrok.io")
     soup=BeautifulSoup(res.text, "lxml")
     resource_links=[]
@@ -67,6 +68,7 @@ def find_resource_links():
         for a in li.findAll('a'):
             resource_links.append(a.get('href'))
     return resource_links
+
 ################################################
 # Rest-Api classes
 ################################################
@@ -82,10 +84,7 @@ class LocalUpdateSections(object):
         self.updatesections = call('local_wsmanagesections_update_sections', courseid = cid, sections = sectionsdata)
 
        
-################################################
-# Example
-################################################
-
+# Scanning the existing folders
 os.getcwd()
 os.listdir()
 for folder, sub_folders, files in os.walk("Sem1"):
